@@ -132,7 +132,8 @@ export class VSCodeNotebookController implements Disposable {
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public postMessage(message: any, editor?: NotebookEditor): Thenable<boolean> {
-        const messageType = message && 'message' in message ? message.message : '';
+        let messageType = message && 'message' in message ? message.message : '';
+        messageType = !messageType ? (message && 'type' in message ? message.type : '') : messageType;
         traceInfo(`${ConsoleForegroundColors.Green}Posting message to Notebook UI ${messageType}`);
         return this.controller.postMessage(message, editor);
     }
